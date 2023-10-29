@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  app:
+    env_file:
+      - .env.container
+    build:
+      dockerfile: Containerfile.dev
+      args:
+        - REDHAT_USERNAME=$REDHAT_USERNAME
+        - REDHAT_PASSWORD=$REDHAT_PASSWORD
+    ports:
+      - 8080:8080
+      - 5173:5173
+    volumes:
+      - ./public/:/opt/app-root/src/
+      - ./app/:/opt/app-root/app/
+      - ./bootstrap/:/opt/app-root/bootstrap/
+      - ./config/:/opt/app-root/config/
+      - ./database/:/opt/app-root/database/
+      - ./resources/:/opt/app-root/resources/
+      - ./routes/:/opt/app-root/routes/
+      - ./storage/:/opt/app-root/storage/
+      - ./vendor/:/opt/app-root/vendor/
+      - ./.env:/opt/app-root/.env
+      - ./artisan:/opt/app-root/artisan
+      - ./composer.json:/opt/app-root/composer.json
+      - ./composer.lock:/opt/app-root/composer.lock
+      - ./tools/:/opt/app-root/tools/
+    command: /bin/bash -c "/opt/app-root/tools/deploy"
+    networks: 
+      - so-project1
+    restart: always
+  
+volumes:
+  public: {}
+
+networks:
+  so-project1:
+    driver: bridge

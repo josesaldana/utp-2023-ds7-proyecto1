@@ -1,0 +1,23 @@
+FROM ubi9/php-81:1-35.1696863466
+# FROM rhel9/php-81:1-35.1696863466
+
+# ARG REDHAT_USERNAME
+# ARG REDHAT_PASSWORD
+
+USER 0
+RUN mkdir -p /var/log/otp-service
+RUN chmod 666 /var/log/otp-service
+ENV SMDEV_CONTAINER_OFF=1
+# RUN subscription-manager register --username $REDHAT_USERNAME --password $REDHAT_PASSWORD --auto-attach
+RUN yum update -y; yum install pip -y; yum clean all; yum install multirun; pip install supervisor;
+# COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# RUN supervisorctl reload
+# RUN supervisord -c /etc/supervisor/conf.d/supervisord.conf
+# RUN subscription-manager unregister
+# RUN nohup php /opt/app-root/artisan queue:work --daemon --sleep=3 --tries=3 &
+USER 1001
+
+
+# Set the default command for the resulting image
+# CMD /usr/libexec/s2i/run
+CMD ["bash", "-c", "/opt/app-root/tools/deploy.sh"]

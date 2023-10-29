@@ -1,0 +1,5 @@
+#!/bin/sh
+
+php /opt/app-root/artisan migrate
+supervisord -c /opt/app-root/tools/supervisord.conf &
+/usr/libexec/s2i/run
