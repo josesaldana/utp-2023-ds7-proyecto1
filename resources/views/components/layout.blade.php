@@ -9,14 +9,6 @@
       rel="stylesheet"
       type="text/css"
     />
-</head>
-<body class="flex flex-col h-full relative h-screen dark:text-neutral-content">
-    {{ $slot }}
-
-    <footer class="header bg-fuchsia-900 text-neutral-50 dark:bg-neutral dark:text-neutral-content w-full sticky py-5 px-10 dark:bg-slate-800">
-        Todos los derechos reservados &copy;
-    </footer>
-
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/preset-icons.global.js"></script>
     <script>
@@ -31,6 +23,14 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
     <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
+</head>
+<body class="flex flex-col h-full relative h-screen dark:text-neutral-content">
+    {{ $slot }}
+
+    <footer class="header bg-fuchsia-900 text-neutral-50 dark:bg-neutral dark:text-neutral-content w-full sticky py-5 px-10 dark:bg-slate-800">
+        Todos los derechos reservados &copy;
+    </footer>
+
     <script>
         function toggleDarkMode() {
             let htmlEl = document.documentElement;
