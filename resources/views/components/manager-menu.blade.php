@@ -22,7 +22,7 @@
 
     <!-- Smile, breathe, and go slowly. - Thich Nhat Hanh -->
     <a class="w-full px-5 py-3 mt-5 text-center" 
-        hx-get="/"
+        hx-get="/sessions"
         hx-target="#page-container"
         hx-swap="innerHTML">Inicio</a>
 
