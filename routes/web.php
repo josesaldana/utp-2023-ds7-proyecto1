@@ -18,4 +18,4 @@ use App\Http\Controllers\SessionsController;
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/sessions', [SessionsController::class, 'index']);
 Route::get('/sessions/list', [SessionsController::class, 'list']);
-Route::post('/sessions', [SessionsController::class, 'create']);
+Route::post('/sessions/create', [SessionsController::class, 'create']);
