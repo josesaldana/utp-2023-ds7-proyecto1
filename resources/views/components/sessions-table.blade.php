@@ -3,8 +3,8 @@
 
     <div class="mt-3"
             hx-get="/sessions/list"
-            hx-trigger="load"
+            hx-trigger="load, every 5s, session-created from:body"
             hx-swap="innerHTML">
-        Espere un momento por favor...
+        <span class="loading loading-spinner text-primary"></span>
     </div>
 </div>

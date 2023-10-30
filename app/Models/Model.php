@@ -4,15 +4,15 @@ namespace App\Models;
 
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 abstract class Model {
     use ModelCSVDataAccess;
 
-    private $data = array();
+    protected $data = array();
     protected $csvFields = array();
 
     public function __construct($data = array()) {
-        $this->data["id"] = Uuid::uuid4();
         $this->hydrate(array_combine($this->csvFields, $data));
     }
 
@@ -59,6 +59,16 @@ abstract class Model {
  */
 trait ModelCSVDataAccess {
 
+    public static function create($data = array()) {
+        array_unshift($data, Uuid::uuid4());
+        $class = get_called_class();
+        $obj = new $class($data);
+        $handle = fopen(self::getCSVFileName(), "a+");
+        fputcsv($handle, array_values($obj->data));
+        fclose($handle);
+        return $obj;
+    }
+
     public static function findAll() {
         $results = [];
         $handle = fopen(self::getCSVFileName(), "a+");
@@ -73,6 +83,38 @@ trait ModelCSVDataAccess {
 
         return $results;
     }
+
+    public function save() {
+        $csvFilename = self::getCSVFileName();
+        $temporaryFileName =  $csvFilename . '.tmp';
+
+        $input = fopen($csvFilename, "r");
+        $output = fopen($temporaryFileName, "w");
+
+        while(($row = fgetcsv($input)) != false) {
+            $class = get_called_class();
+            $obj = new $class($row);
+
+            $newRowData = $obj->id == $this->id ? $this->data : $row;
+
+            // if ($obj->id == $this->id) {
+            //     // foreach (array_keys($this->data) as $key) {
+            //     //     $obj->$key = $row[$key];
+            //     // }
+            //     $data = $this->data;
+            // } else {
+            //     $data = $row;
+            // }
+
+            fputcsv($output, $newRowData);
+        }
+
+        fclose($input);
+        fclose($output);
+
+        unlink($csvFilename);
+        rename($temporaryFileName, $csvFilename);
+    }  
 
     private static function getCSVFileName() {
         $class = (new \ReflectionClass(get_called_class()))->getShortName();
