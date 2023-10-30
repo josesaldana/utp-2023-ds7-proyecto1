@@ -88,6 +88,42 @@ trait ModelCSVDataAccess {
         return $results;
     }
 
+    public static function findMany(\Closure $predicate) {
+        $results = [];
+        $handle = fopen(self::getCSVFileName(), "a+");
+
+        while(($row = fgetcsv($handle)) != false) {
+            $class = get_called_class();
+            $obj = new $class($row);
+
+            if ($predicate($obj)) {
+                array_push($results, $obj);
+            }
+        }
+
+        fclose($handle);
+
+        return $results;
+    }
+
+    public static function findOne(\Closure $predicate) {
+        $handle = fopen(self::getCSVFileName(), "a+");
+
+        while(($row = fgetcsv($handle)) != false) {
+            $class = get_called_class();
+            $obj = new $class($row);
+
+            if ($predicate($obj)) {
+                fclose($handle);
+                return $obj;
+            }
+        }
+
+        fclose($handle);
+
+        return null;
+    }
+
     public function save() {
         $csvFilename = self::getCSVFileName();
         $temporaryFileName =  $csvFilename . '.tmp';
