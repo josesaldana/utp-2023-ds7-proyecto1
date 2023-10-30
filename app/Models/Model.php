@@ -54,18 +54,22 @@ abstract class Model {
 }
 
 /*
- * CSV Data Access for models using fgetcsv and fputcsv. It could be replaced
- * with league/csv.
+ * ModelCSVDataAccess
+ * 
+ * CSV Data Access for models using fgetcsv and fputcsv. 
+ * It can be replaced with an implementation using league/csv package.
  */
 trait ModelCSVDataAccess {
-
     public static function create($data = array()) {
         array_unshift($data, Uuid::uuid4());
+
         $class = get_called_class();
         $obj = new $class($data);
+
         $handle = fopen(self::getCSVFileName(), "a+");
         fputcsv($handle, array_values($obj->data));
         fclose($handle);
+
         return $obj;
     }
 
@@ -80,7 +84,7 @@ trait ModelCSVDataAccess {
         }
 
         fclose($handle);
-
+        
         return $results;
     }
 
@@ -94,18 +98,7 @@ trait ModelCSVDataAccess {
         while(($row = fgetcsv($input)) != false) {
             $class = get_called_class();
             $obj = new $class($row);
-
             $newRowData = $obj->id == $this->id ? $this->data : $row;
-
-            // if ($obj->id == $this->id) {
-            //     // foreach (array_keys($this->data) as $key) {
-            //     //     $obj->$key = $row[$key];
-            //     // }
-            //     $data = $this->data;
-            // } else {
-            //     $data = $row;
-            // }
-
             fputcsv($output, $newRowData);
         }
 

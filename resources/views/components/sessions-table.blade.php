@@ -5,6 +5,6 @@
             hx-get="/sessions/list"
             hx-trigger="load, every 5s, session-created from:body"
             hx-swap="innerHTML">
-        <span class="loading loading-spinner text-primary"></span>
+        <span class="loading loading-bars loading-lg"></span>
     </div>
 </div>
