@@ -21,4 +21,9 @@ class Session extends Model {
             return Carbon::create($this->fin)->diffInSeconds(now()) . " seg";
         }
     }
+
+    public function obtenerAbono() {
+        $tiempoEnMinutos = Carbon::create($this->fin)->diffInMinutes($this->inicio);
+        return floatval(($tiempoEnMinutos / 60) * 0.75);
+    }
 }

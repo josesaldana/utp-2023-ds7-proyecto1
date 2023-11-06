@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Session;
 use App\Models\Client;
 use App\Models\Machine;
+use App\Models\DailySummary;
 use App\Jobs\TerminateSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -21,10 +22,45 @@ class SessionsController extends Controller
             return $r->estaActiva();
         });
 
+        $maquinas = Machine::findAll();
+        $maquinas = array_combine(array_column($maquinas, 'id'), $maquinas);
+
+        $clientes = Client::findAll();
+        $clientes = array_combine(array_column($clientes, 'id'), $clientes);
+
+        $activeSessions = array_map(function($as) use($maquinas, $clientes) {
+            $as->maquina = $maquinas[$as->maquina]->numero;
+            $as->cliente = $clientes[$as->cliente]->nombre . " " . $clientes[$as->cliente]->apellido;
+            return $as;
+        }, $activeSessions);
+
         return view('sessions.list', [
             'sessions' => $activeSessions
         ]);
     } 
+
+    public function summary() {
+        $dailySummary = DailySummary::findOne(function($r) {
+            return Carbon::parse($r->dia)->isSameDay(Carbon::now());
+        });
+
+        if (!isset($dailySummary)) {
+            $dailySummary = new DailySummary([
+                'id' => 'empty-guid',
+                'dia' => Carbon::now(),
+                'totalDeSesiones' => 0,
+                'totalRecaudado' => 0
+            ]);
+        }
+
+        $maquinas = Machine::findAll();
+
+        return view('sessions.summary', [
+            'summary' => $dailySummary,
+            'maquinasEnUso' => count(array_filter($maquinas, function($m) { return $m->en_uso; })),
+            'maquinasDisponibles' => count(array_filter($maquinas, function($m) { return !$m->en_uso; }))
+        ]);
+    }
 
     public function create(Request $req) {
         // Verificar si hay una sesión de alquiler activa
@@ -77,6 +113,22 @@ class SessionsController extends Controller
 
         $sessionSeconds = $session->inicio->diffInSeconds($session->fin);
         TerminateSession::dispatch($session)->delay(now()->addSeconds($sessionSeconds));
+
+        $dailySummary = DailySummary::findOne(function($r) {
+            return Carbon::parse($r->dia)->isSameDay(Carbon::now());
+        });
+
+        if (!isset($dailySummary)) {
+            $dailySummary = DailySummary::create([
+                'dia' => Carbon::now(),
+                'totalDeSesiones' => 0,
+                'totalRecaudado' => 0
+            ]);
+        }
+
+        $dailySummary->totalDeSesiones += 1;
+        $dailySummary->totalRecaudado += $session->obtenerAbono();
+        $dailySummary->save();
 
         return response()
             ->view('sessions.created', [

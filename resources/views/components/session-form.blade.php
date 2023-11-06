@@ -8,7 +8,7 @@
     <input type="text" name="cliente" class="input input-bordered w-full" placeholder="C&oacute;digo">
     <input type="text" name="nombre" class="input input-bordered w-full" placeholder="Nombre">
     <input type="text" name="apellido" class="input input-bordered w-full" placeholder="Apellido">
-    <input type="number" name="tiempo" class="input input-bordered w-full" placeholder="Tiempo">
+    <input type="number" name="tiempo" class="input input-bordered w-full" placeholder="Tiempo en minutos">
     <div class="form-control">
         <label class="label cursor-pointer" for="fuma">
             <span class="label-text">¿Fuma?</span> 
