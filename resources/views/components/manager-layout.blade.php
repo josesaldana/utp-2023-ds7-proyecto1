@@ -1,6 +1,6 @@
 <x-layout>
     <header class="flex flex-row text-white">
-        <div class="w-1/6 flex flex-row bg-fuchsia-900 dark:bg-neutral py-5 px-5 border-r border-solid border-slate-700">
+        <div class="w-1/6 flex flex-row bg-fuchsia-900 dark:bg-neutral py-5 px-5 border-r border-solid border-slate-200 dark:border-slate-700">
             <h1 class="text-2xl flex-grow self-end">Cyber Manager</h1>
             <button class="self-end i-carbon-sun dark:i-carbon-moon" alt="Dark Mode" onclick="javascript:toggleDarkMode();"  />
         </div>
