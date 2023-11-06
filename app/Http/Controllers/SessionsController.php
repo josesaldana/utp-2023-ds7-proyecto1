@@ -22,9 +22,11 @@ class SessionsController extends Controller
             return $r->estaActiva();
         });
 
+        // Podríamos usar caching aquí si hubiese problemas de performance
         $maquinas = Machine::findAll();
         $maquinas = array_combine(array_column($maquinas, 'id'), $maquinas);
 
+        // Podríamos usar caching aquí si hubiese problemas de performance
         $clientes = Client::findAll();
         $clientes = array_combine(array_column($clientes, 'id'), $clientes);
 
