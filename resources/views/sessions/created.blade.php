@@ -1,13 +1,5 @@
-@if ($success)
-<div class="toast toast-center">
-  <div class="alert alert-info">
-    <span>Sesi&oacute;n creada satisfactoriamente.</span>
-  </div>
-</div>
-@else
-<div class="toast">
-  <div class="alert alert-info">
+<div class="toast absolute" _="on load wait 6s then remove me">
+  <div class="alert alert-{{ $status }}">
     <span>{{ $message }}</span>
   </div>
 </div>
-@endif

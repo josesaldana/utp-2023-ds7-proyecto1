@@ -8,7 +8,17 @@ use Illuminate\Support\Carbon;
 class Session extends Model {
     protected $csvFields = ['id', 'maquina', 'cliente', 'inicio', 'fin'];
 
+    public function estaActiva() {
+        return !Carbon::create($this->fin)->isPast();
+    }
+
     public function tiempoRestante() {
-        return Carbon::create($this->fin)->from(Carbon::create($this->inicio));
+        $diffInMinutes = Carbon::create($this->fin)->diffInMinutes(now());
+
+        if($diffInMinutes > 0) {
+            return $diffInMinutes . " min";
+        } else {
+            return Carbon::create($this->fin)->diffInSeconds(now()) . " seg";
+        }
     }
 }

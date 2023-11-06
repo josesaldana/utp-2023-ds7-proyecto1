@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Cyber Manager' }}</title>
-     <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@2.6.0/dist/full.css"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/preset-icons.global.js"></script>
     <script>
@@ -23,6 +19,8 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
     <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/src/index.min.js"></script>
 </head>
 <body class="flex flex-col h-full relative h-screen dark:text-neutral-content">
     {{ $slot }}

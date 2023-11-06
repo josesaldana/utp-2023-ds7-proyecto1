@@ -5,6 +5,7 @@ namespace App\Models;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 abstract class Model {
     use ModelCSVDataAccess;
@@ -66,7 +67,7 @@ trait ModelCSVDataAccess {
         $class = get_called_class();
         $obj = new $class($data);
 
-        $handle = fopen(self::getCSVFileName(), "a+");
+        $handle = fopen(self::getCSVFileName(), "a+"); 
         fputcsv($handle, array_values($obj->data));
         fclose($handle);
 
@@ -147,6 +148,7 @@ trait ModelCSVDataAccess {
 
     private static function getCSVFileName() {
         $class = (new \ReflectionClass(get_called_class()))->getShortName();
-        return strtolower(Str::plural($class)) . ".csv";
+        $fileDir = Storage::getFacadeApplication()->storagePath();
+        return strtolower("$fileDir/" . Str::plural($class)) . ".csv";
     }
 }

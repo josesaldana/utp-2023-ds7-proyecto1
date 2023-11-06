@@ -1,6 +1,6 @@
 <x-layout>
     <!-- <main class="flex flex-row items-stretch"> -->
-    <main class="flex flex-row flex-grow">
+    <main class="flex flex-row flex-grow relative">
         <x-manager-menu></x-manager-menu>
         <div id="page-container" class="w-full">
             {{ $slot }}

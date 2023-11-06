@@ -3,7 +3,7 @@
     <thead>
         <th>M&aacute;quina</th>
         <th>Cliente</th>
-        <th>Salida</th>
+        <th>Tiempo Restante</th>
     </thead>
     <tbody>
         @foreach($sessions as $session)

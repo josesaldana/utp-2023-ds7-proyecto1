@@ -1,6 +1,6 @@
 <form class="w-full flex flex-col gap-y-3 flex-none mt-5" 
         hx-post="/sessions/create"
-        hx-target="body"
+        hx-target="#page-container"
         hx-swap="beforeend">
     @csrf <!-- {{ csrf_field() }} -->
     <h2 class="font-bold">Nueva Sesi&oacute;n</h2>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Session;
 use App\Models\Client;
 use App\Models\Machine;
+use App\Jobs\TerminateSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -16,13 +17,19 @@ class SessionsController extends Controller
     }
 
     public function list() {
-        return view('sessions.list', ['sessions' => Session::findAll()]);
+        $activeSessions = Session::findMany(function($r) {
+            return $r->estaActiva();
+        });
+
+        return view('sessions.list', [
+            'sessions' => $activeSessions
+        ]);
     } 
 
     public function create(Request $req) {
         // Verificar si hay una sesión de alquiler activa
         $session = Session::findOne(function($r) use ($req) {
-            return $r->maquina = $req->input("maquina");
+            return $r->maquina == $req->input("maquina");
         });
 
         if (isset($session)) {
@@ -39,8 +46,8 @@ class SessionsController extends Controller
 
         if (!isset($maquinaDisponible)) {
             return response()->view('sessions.created', [
-                'success' => false, 
-                'message' => 'No hay m&aacute;quina disponible'
+                'status' => 'error', 
+                'message' => 'No hay máquinas disponible'
             ]);
         }
 
@@ -49,7 +56,7 @@ class SessionsController extends Controller
         $maquinaDisponible->save();
 
         $client = Client::findOne(function($r) use ($req) {
-            return $r->codigo = $req->input('cliente');
+            return $r->codigo == $req->input('cliente');
         });
 
         if (!isset($cliente)) {
@@ -62,14 +69,20 @@ class SessionsController extends Controller
         }
 
         $session = Session::create([
-            "maquina" => $maquinaDisponible->numero,
+            "maquina" => $maquinaDisponible->id,
             "cliente" => $client->id,
             "inicio" => Carbon::now(),
             "fin" => Carbon::now()->addMinutes($req->input("tiempo"))
         ]);
 
+        $sessionSeconds = $session->inicio->diffInSeconds($session->fin);
+        TerminateSession::dispatch($session)->delay(now()->addSeconds($sessionSeconds));
+
         return response()
-            ->view('sessions.created', ['success' => true])
+            ->view('sessions.created', [
+                'status' => 'success',
+                'message' => 'Sesión creada satisfactoriamente'
+            ])
             ->header('HX-Trigger', 'session-created');
     }
 }
