@@ -12,7 +12,7 @@
 
 Ejecute los siguientes pasos para correr la aplicaci&oacute;n:
 
-1. Agregue la siguiente configuración al archivo %XAMPP_DIR%\apache\conf\extra\httpd-vhosts.conf
+1. Agregue la siguiente configuración al archivo `%XAMPP_DIR%\apache\conf\extra\httpd-vhosts.conf`
 ```
 <Directory C:/Projects/Universidad/DesoftVII/2023/proyecto1/public>
      Options Indexes FollowSymLinks Includes ExecCGI
