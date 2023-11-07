@@ -12,7 +12,7 @@
 ## Instalaci&oacute;n
 
 Ejecute los siguientes pasos para correr la aplicaci&oacute;n:
-1. En una linea de comandos lo siguiente:
+1. Abrir una línea de comandos en el directorio donde ha descomprimido esta aplicación y ejecutar:
 ```
 composer install
 ```
