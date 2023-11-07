@@ -52,6 +52,16 @@ abstract class Model {
             }
         }
     }
+
+    public function asArray() {
+        $array = [];
+
+        foreach (array_keys($this->data) as $key) {
+            $array[$key] = $this->data[$key];
+        }
+
+        return $array;
+    }
 }
 
 /*

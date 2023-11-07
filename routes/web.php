@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SessionsController;
+use App\Http\Controllers\ReportsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,5 @@ Route::get('/sessions', [SessionsController::class, 'index']);
 Route::get('/sessions/list', [SessionsController::class, 'list']);
 Route::get('/sessions/summary', [SessionsController::class, 'summary']);
 Route::post('/sessions/create', [SessionsController::class, 'create']);
+Route::get('/reports', [ReportsController::class, 'index']);
+Route::post('/reports/generate', [ReportsController::class, 'generate']);
