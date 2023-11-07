@@ -43,3 +43,6 @@ php artisan queue:work
 5. Iniciar XAMPP
 
 6. Abrir su navegador en http://proyecto1.ds7.local y disfrute.
+
+## Contacto
+En caso de tener problemas para instalar la aplicación, por favor contacte a José Saldaña via Teams (jose.saldana2@utp.ac.pa) al 62375026.
