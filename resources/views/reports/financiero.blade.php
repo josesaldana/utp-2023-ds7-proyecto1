@@ -1,4 +1,4 @@
-<h2 class="text-2xl">Reporte Financiero</h2>
+<h2 class="text-2xl p-4">Reporte Financiero</h2>
 
 <div class="stats shadow col-span-full flex flex-row w-full mt-5">
     <div class="stat">

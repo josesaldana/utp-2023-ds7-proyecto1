@@ -1,4 +1,4 @@
-<div class="container-lg px-8 mt-10 mb-5">
+<div class="container-lg px-8 mxt-10 mb-5 p-4">
     <form class="w-full flex flex-row gap-y-3 flex-none items-center mt-5 gap-3" 
             hx-post="/reports/generate"
             hx-target="#report-container"

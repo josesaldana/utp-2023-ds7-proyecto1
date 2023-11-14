@@ -13,7 +13,7 @@
     <!-- <main class="flex flex-row items-stretch"> -->
     <main class="flex flex-row flex-grow relative">
         <x-manager-menu></x-manager-menu>
-        <div id="page-container" class="w-full">
+        <div id="page-container" class="w-full bg-base-200">
             {{ $slot }}
         </div>
     </main>
